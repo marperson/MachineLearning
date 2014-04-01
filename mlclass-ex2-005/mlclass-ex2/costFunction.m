@@ -11,6 +11,16 @@ m = length(y); % number of training examples
 J = 0;
 grad = zeros(size(theta));
 
+J = (1/m)*sum(y*log(ones(size(theta'*X)./(ones(size(theta'*X).+e.**(-theta'*X)))-(1-y)log(1-(ones(size(theta'*X))./(ones(size(theta'*X)).+e.**(-theta'*X)))));
+
+for iter = 1:num_iters
+    tmp_theta = theta;
+    for nbrfeature = 1:size(X,2)
+        tmp_theta(nbrfeature) = theta(nbrfeature) - alpha * (1/m) * sum((X*theta-y).*X(:,nbrfeature));
+    end
+    theta=tmp_theta;
+end
+
 % ====================== YOUR CODE HERE ======================
 % Instructions: Compute the cost of a particular choice of theta.
 %               You should set J to the cost.
