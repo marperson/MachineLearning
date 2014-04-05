@@ -20,8 +20,20 @@ grad = zeros(size(theta));
 % Note: grad should have the same dimensions as theta
 
 J = (1/m)*((-y'*log(sigmoid(X*theta))-(1.-y)'*log(1.-sigmoid(X*theta))));
-%% Exercise asks for gradient, not gradient descent!!!
-grad = (1/m)*sum((sigmoid(X*theta)-y).*X);
+grad = sigmoid(X*theta);
+%num_iters=1000;
+%alpha =0.3;
+%for iter = 1:num_iters
+%    tmp_theta = theta;
+%	for nbrfeature = 1:size(X,2)
+%        tmp_theta(nbrfeature) = theta(nbrfeature) - alpha * (1/m) * sum((sigmoid(-X*theta)-y).*X(:,nbrfeature));
+%    end
+%    theta=tmp_theta;
+%end
+
+
+
+
 
 
 % =============================================================
