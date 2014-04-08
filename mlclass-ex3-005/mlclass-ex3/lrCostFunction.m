@@ -37,9 +37,17 @@ grad = zeros(size(theta));
 %
 
 
+J = (1/m)*((-y'*log(sigmoid(X*theta))-(1.-y)'*log(1.-sigmoid(X*theta))))+(lambda/(2*m))*sum(theta(2:size(theta)).^2);
 
+%% Exercise asks for gradient, not gradient descent!!!
+% Use whole theta to calculate grad(1), not only theta(1) 
+temp_grad1=(1/m)*sum((sigmoid(X*theta)-y).*X);
+grad(1) = temp_grad1(1);
 
-
+% formula missing theta transposition "theta'" at the end
+% use whole theta to calculate grad(2:size(theta)), not only theta(2:size(theta))
+temp_grad2=(1/m)*sum((sigmoid(X*theta)-y).*X)+(lambda/m)*theta';
+grad(2:size(theta)) = temp_grad2(2:size(theta));
 
 
 
