@@ -30,7 +30,12 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
-
+for i=1:m
+	%compute hyposis for input X(i,:) 
+	h=sigmoid(all_theta*X(i,:)');
+	%Use max function to get index, j is the max
+	[j,p(i)] = max(h);
+end
 
 
 
