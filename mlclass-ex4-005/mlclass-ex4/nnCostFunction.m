@@ -61,31 +61,55 @@ Theta2_grad = zeros(size(Theta2));
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
+% ----------------------------------------------------------------
+% Part 1 Feedforward
+y_matrix=eye(num_labels)(y,:);
+% Add X0 at the top
+a1=[ones(m, 1),X];
 
+delta1_sum=0;
+delta2_sum=0;
 
+for i = 1:m
+	z2=Theta1*a1(i,:)';
+	a2_original=sigmoid(z2);
+	%Add a0 at the top
+	a2=[ones(1,size(a2_original,2));a2_original];
+	z3=Theta2*a2;
+	a3=sigmoid(z3);
+	% y_matrix(i) != y_matrix(i,:)
+	J = J + (1/m)*(-y_matrix(i,:)*log(a3)-(1.-y_matrix(i,:))*log(1.-a3));
+	%BackPropagation
+	delta3 = a3 - y_matrix(i,:)';
+	% Remove a20 bias unit
+	delta2 = Theta2(:,[2:end])'*delta3.*sigmoidGradient(z2);
+	
+	% a2o bias unit has been removed from previous step
+	delta2_sum = delta2_sum + delta3*a2';
+	% not X(i,:) becasue need a0 bias unit
+	delta1_sum = delta1_sum + delta2*a1(i,:);
+end
+% -----------------------------------------------------------------
+% Part 2 Regulation
+% Must remove Theta first column (Bias unit)
+% Sum function does sum column, two sum will sum all the matrix elements
+% a(:,[2,3]) != a(:, [2:3])
+J = J + (lambda/(2*m))*(sum(sum(Theta1(:,[2:input_layer_size+1]).^2))+sum(sum(Theta2(:,[2:hidden_layer_size+1]).^2)));
 
+% ----------------------------------------------------------------
+% Part 3 Backpropagation
+Theta1_grad = (1/m)*delta1_sum;
+Theta2_grad = (1/m)*delta2_sum;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-% -------------------------------------------------------------
-
+% -----------------------------------------------------------------
+% Part 4 Backpropagation Regulation
+% We don't touch the fist column of Theta_grad
+% We add Regulation parameter to the rest of column, Theta_grad is based on previous step.
+Theta1_grad(:,[2:end]) = Theta1_grad(:,[2:end]) + (lambda/m)*Theta1(:,[2:end]);
+Theta2_grad(:,[2:end]) = Theta2_grad(:,[2:end]) + (lambda/m)*Theta2(:,[2:end]);
 % =========================================================================
 
 % Unroll gradients
 grad = [Theta1_grad(:) ; Theta2_grad(:)];
-
 
 end
