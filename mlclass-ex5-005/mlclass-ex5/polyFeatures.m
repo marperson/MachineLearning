@@ -15,7 +15,13 @@ X_poly = zeros(numel(X), p);
 %
 % 
 
-
+for i = 1:size(X)
+	for j = 1:p
+		%X_poly has been initialized with required size, no need to add columns
+		%X_poly(:,end+1) = X(i).^i;
+		X_poly(i,j) = X(i).^j;
+	end
+end	
 
 
 
