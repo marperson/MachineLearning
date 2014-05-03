@@ -23,6 +23,24 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
+C_temp = [0.01 0.03 0.1 0.3 1 3 10 30];
+sigma_temp = [0.01 0.03 0.1 0.3 1 3 10 30];
+%C_temp = [0.01; 1; 3];
+%sigma_temp = [0.01; 1; 3];
+J_temp=0;
+J=100000;
+for i = 1:length(C_temp)
+	for j = 1:length(sigma_temp)
+		model= svmTrain(X, y, C_temp(i), @(x1, x2) gaussianKernel(x1, x2, sigma_temp(j)));
+		predictions = svmPredict(model, Xval);
+		J_temp=mean(double(predictions ~= yval))
+		if J>J_temp
+			J = J_temp
+			C = C_temp(i)
+			sigma = sigma_temp(j)
+		end
+	end
+end
 
 
 
