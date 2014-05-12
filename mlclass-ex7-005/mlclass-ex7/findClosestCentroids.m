@@ -20,8 +20,22 @@ idx = zeros(size(X,1), 1);
 %
 % Note: You can use a for-loop over the examples to compute this.
 %
-
-
+distance=0;
+new_distance=0;
+for i=1:size(X,1)
+	new_distance = 1000000;
+	distance = 1000000;
+	for j=1:K
+		% new_distance = sqrt((X(i,1)-centroids(j,1))^2+(X(i,2)-centroids(j,2))^2)
+		% The double-bar notation means to compute the sum of the square of the differences of each component..
+		% new_distance = sum((X(i)-centroids(j)).^2) is wrong, not all columns are included
+		new_distance = sum((X(i,:)-centroids(j,:)).^2);
+		if (new_distance < distance)
+			distance = new_distance;
+			idx(i) = j;
+		endif
+	end
+end
 
 
 
