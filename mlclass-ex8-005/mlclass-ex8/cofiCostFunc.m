@@ -40,14 +40,22 @@ Theta_grad = zeros(size(Theta));
 %                     partial derivatives w.r.t. to each element of Theta
 %
 
+% X.*R will take only the R == 1
+% Calculate Non-Regularized Cost Function 
+% J = (1/2)*sum(sum(((X*Theta').*R .- (Y.*R)).^2));
 
+% Last Theta or X doesn't need to be .*R
+% Calculate Non-Regularized Gradiens
+% X_grad = ((X*Theta').*R .- (Y.*R))*Theta;
+% Need to Transpose A factor (first item)
+% Theta_grad = ((X*Theta').*R .- (Y.*R))'*X;
 
+% Regularized cost function
+J = (1/2)*sum(sum(((X*Theta').*R .- (Y.*R)).^2)) + (lambda/2)*sum(sum(Theta.^2)) + (lambda/2)*sum(sum(X.^2));
 
-
-
-
-
-
+% Regularized Gradiens
+X_grad = ((X*Theta').*R .- (Y.*R))*Theta + lambda * X;
+Theta_grad = ((X*Theta').*R .- (Y.*R))'*X + lambda * Theta;
 
 
 
